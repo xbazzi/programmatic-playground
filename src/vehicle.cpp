@@ -69,7 +69,6 @@ class Vehicle
     private:
 
     int _odometer;
-    bool _odometer_set = false;
     VINType _vin;
 
     static std::mutex odometer_mutex;
