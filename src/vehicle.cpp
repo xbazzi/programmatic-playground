@@ -34,6 +34,10 @@ class Vehicle
         }
     }
 
+    void printing()
+    {
+        std::cout << "I am printing... "
+    }
     void displayVIN()
     {
         std::lock_guard<std::mutex> locked(odometer_mutex);
