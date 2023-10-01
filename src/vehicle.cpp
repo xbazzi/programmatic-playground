@@ -36,7 +36,7 @@ class Vehicle
 
     void printing()
     {
-        std::cout << "I am printing... "
+        std::cout << "I am printing... ";
     }
     void displayVIN()
     {
