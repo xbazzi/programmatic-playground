@@ -1,0 +1,12 @@
+# Changelog
+
+All changes to this sandbox repo will be documented in this file.
+
+The format is based on [Semantic Versioning](https://semver.org/).
+
+## [0.0.1] - 2024-02-23
+### Added
+ - Changelog file.
+ - compile_time_eval.cpp to practice compile-time evaluation and static metaprogramming.
+ - fibonacci_static.cpp to calculate nth fibonacci number using at compile-time using static metaprogramming.
+ - .gitignore file for executables
