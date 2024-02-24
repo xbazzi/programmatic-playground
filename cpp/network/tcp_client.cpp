@@ -44,9 +44,6 @@
     }
 #endif
 
-namespace tcp
-{
-
 // Define a portable read function
 ssize_t portable_read(SocketType socket, char *buffer, size_t length) {
     #ifdef _WIN32
@@ -80,17 +77,16 @@ int main() {
         return -1;
     }
 
-    const char* hello = "Hello from client";
-    send(sock, hello, strlen(hello), 0);
-    std::cout << "Hello message sent\n";
+    const char* msg = "Hello from client";
+    send(sock, msg, strlen(msg), 0);
+    std::cout << "Message: " << msg << "\n";
 
     char buffer[1024] = {0};
     portable_read(sock, buffer, 1024);
-    std::cout << "Server: " << buffer << std::endl;
+    std::cout << "Server reply: " << buffer << std::endl;
 
     CLOSESOCKET(sock);
     cleanup_network();
 
     return 0;
 }
-} // End of tcp namespace

@@ -4,7 +4,7 @@ All changes to this sandbox repo will be documented in this file.
 
 The format is based on [Semantic Versioning](https://semver.org/).
 
-## [0.1.0] - 2024-02-23
+## [0.1.0] - 2024-02-24
 ### Added
  - Network program to send a message over a tcp connection from a client to a server and back: `tcp_client.cpp` and `tcp_server.cpp`.
 

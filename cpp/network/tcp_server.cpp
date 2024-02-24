@@ -23,6 +23,7 @@
         }
     }
 
+
     void cleanup_network() {
         WSACleanup();
     }
@@ -44,8 +45,7 @@
         // No cleanup needed for POSIX
     }
 #endif
-namespace tcp
-{
+
 // Define a portable read function
 ssize_t portable_read(SocketType socket, char *buffer, size_t length) {
     #ifdef _WIN32
@@ -63,7 +63,7 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
-    const char *msg = "Hello from server";
+    const char *msg = "Hello handsome";
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -79,7 +79,7 @@ int main() {
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; // or specific IP
-    address.sin_port = htons(8080);
+    address.sin_port = htons(5000);
 
     // Forcefully attaching socket to the port 8080
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
@@ -92,7 +92,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Listening on port 8080...\n";
+    std::cout << "Listening on port 5000...\n";
 
     if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
         PRINTLASTERROR;
@@ -102,7 +102,7 @@ int main() {
     ssize_t valread = portable_read(new_socket, buffer, 1024);
     std::cout << "Message from client: " << buffer << std::endl;
     send(new_socket, msg, strlen(msg), 0);
-    std::cout << "Hello message sent\n";
+    std::cout << "Server reply: " << msg << "\n";
 
     CLOSESOCKET(new_socket);
     CLOSESOCKET(server_fd);
@@ -110,4 +110,3 @@ int main() {
 
     return 0;
 }
-} // End of tcp namespace
