@@ -23,6 +23,21 @@ class LinkedList
     public:
     explicit LinkedList() : head(nullptr) {}
 
+    LinkedList(LinkedList<T>&& other) noexcept : head(other.head) {
+        /// @todo is this freeing the memory pointed to by other.head?
+        other.head = nullptr;
+    }
+
+    // Move assignment operator
+    LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
+        if (this != &other) {
+            delete head; // Clean up current resources
+            head = other.head; // Transfer ownership
+            other.head = nullptr; // leave the previous head in a valid state
+        }
+        return *this;
+    }
+
     void insertEnd( T data ) {
         Node<T>* newNode = new Node<T>(data);
         if( head == nullptr ) {
@@ -60,17 +75,3 @@ class LinkedList
         }
     }
 };
-
-int main()
-{
-    // create a linked list of ints
-    LinkedList<int> list = LinkedList<int>();
-
-    list.insertEnd(1);
-    list.insertEnd(2);
-    list.insertEnd(3);
-
-    list.printList();
-    list.reverseOrder();
-    list.printList();
-}
