@@ -4,6 +4,15 @@ All changes to this sandbox repo will be documented in this file.
 
 The format is based on [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2024-04-01
+### Added
+- The first python script in the repo.
+
+## [0.1.1] - 2024-02-24
+### Changed
+- Updated linked list implementation to add prepend, append, insert and remove functions.
+- Updated directory structure in cpp/.
+
 ## [0.1.0] - 2024-02-24
 ### Added
  - Network program to send a message over a tcp connection from a client to a server and back: `tcp_client.cpp` and `tcp_server.cpp`.

@@ -11,7 +11,6 @@ public:
     Node* next;
 
     Node(T data, Node* next = nullptr) : data(data), next(next) {}
-
 };
 
 template<typename T>
