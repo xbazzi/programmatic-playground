@@ -1,10 +1,14 @@
 #include <iostream>
 #include <math.h>
+
 // Kernel function to add the elements of two arrays
 __global__
 void add(int n, float *x, float *y)
 {
-  for (int i = threadIdx.x; i < n; i += stride)
+  int index = blockIdx.x * blockDim.x + threadIdx.x;
+  int stride = blockDim.x * gridDim.x;
+  for (int i = index; i < n; i += stride)
+    if (i % stride == 0) printf("Hello thread %d", threadIdx.x);
     y[i] = x[i] + y[i];
 }
 
@@ -24,7 +28,9 @@ int main(void)
   }
 
   // Run kernel on 1M elements on the GPU
-  add<<<1, 256>>>(N, x, y);
+  int blockSize = 256;
+  int numBlocks = (N + blockSize - 1) / blockSize;
+  add<<<numBlocks, blockSize>>>(N, x, y);
 
   // Wait for GPU to finish before accessing on host
   cudaDeviceSynchronize();
