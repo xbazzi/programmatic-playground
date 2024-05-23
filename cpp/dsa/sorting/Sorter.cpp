@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+namespace sorter {
 class Sorter {
     public:
 
@@ -101,6 +102,7 @@ int main() {
     test.push_back(1);
     Sorter::print(test);
 
-    test = Sorter::quickSort(test);
-    Sorter::print(test);
+    test = quickSort(test);
+    print(test);
 }
+} // End of namespace sorter

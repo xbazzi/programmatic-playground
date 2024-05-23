@@ -18,11 +18,10 @@ class Vehicle
     /*
     * Constructor
     */
-    Vehicle(VINType vin, int miles) 
+    Vehicle(VINType& vin, int miles) 
         : _vin{ vin },
           _odometer { miles }
-    {
-    }
+    {}
 
     void displayOdometer()
     {
