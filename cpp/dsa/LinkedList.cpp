@@ -2,9 +2,9 @@
 /// Description: Implementation of a singly linked-list
 
 #include <iostream>
-#include <array>
+#include <memory>
 
-template<typename T>
+template <typename T>
 class Node {
 public:
     T data;
@@ -13,31 +13,35 @@ public:
     Node(T data, Node* next = nullptr) : data(data), next(next) {}
 };
 
-template<typename T>
+template <typename T>
 class LinkedList
 {
     private:
-    Node<T>* head;
 
     public:
+    Node<T>* head;
+
     explicit LinkedList() : head(nullptr) {}
 
+    /// @brief Move operator
+    /// @param other 
     LinkedList(LinkedList<T>&& other) noexcept : head(other.head) {
-        /// @todo is this freeing the memory pointed to by other.head?
         other.head = nullptr;
     }
 
-    // Move assignment operator
+    /// @brief Move assignment operator
+    /// @param other 
+    /// @return 
     LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
         if (this != &other) {
             delete head; // Clean up current resources
-            head = other.head; // Transfer ownership
+            head = std::move(&other->head); // Transfer ownership
             other.head = nullptr; // leave the previous head in a valid state
         }
         return *this;
     }
 
-    void insertEnd( T data ) {
+    void insert_end( T data ) {
         Node<T>* newNode = new Node<T>(data);
         if( head == nullptr ) {
             head = newNode;
@@ -50,7 +54,7 @@ class LinkedList
         }
     }
 
-    Node<T>* reverseOrder() {
+    Node<T>* reverse_order() {
         Node<T>* current = head;
         Node<T>* prev = nullptr;
         Node<T>* next = nullptr;
@@ -66,10 +70,10 @@ class LinkedList
         return head;
     }
 
-    void printList() const {
+    void print_list() const {
         Node<T>* current = head;
         while(current != nullptr) {
-            std::cout << current->data << std::endl;
+            std::cout << current->data << " ";
             current = current->next;
         }
     }
