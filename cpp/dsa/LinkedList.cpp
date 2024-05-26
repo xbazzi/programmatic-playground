@@ -7,10 +7,18 @@
 template <typename T>
 class Node {
 public:
-    T data;
     Node* next;
 
     Node(T data, Node* next = nullptr) : data(data), next(next) {}
+
+    /// @brief Returns the data member
+    /// @return data
+    auto get_val() -> int { 
+        return this->data;
+    }
+
+private:
+    T data;
 };
 
 template <typename T>
@@ -41,7 +49,7 @@ class LinkedList
         return *this;
     }
 
-    void insert_end( T data ) {
+    void insert_end(T data) {
         Node<T>* newNode = new Node<T>(data);
         if( head == nullptr ) {
             head = newNode;
@@ -70,10 +78,11 @@ class LinkedList
         return head;
     }
 
+
     void print_list() const {
         Node<T>* current = head;
         while(current != nullptr) {
-            std::cout << current->data << " ";
+            std::cout << current->get_val() << " ";
             current = current->next;
         }
     }
