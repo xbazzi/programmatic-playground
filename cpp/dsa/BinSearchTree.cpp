@@ -15,18 +15,24 @@ public:
     }
 
     // Move constructor
-    BinSearchTree(BinSearchTree &&other) noexcept 
+    BinSearchTree(BinSearchTree &&other) noexcept
         : val{std::move(other.val)}, left{std::move(other.left)}, right{std::move(other.right)}, duplicates{std::move(other.duplicates)} {
+        // Technically not needed if using unique_ptr
         other.left = nullptr;
         other.right = nullptr;
     }
 
-    ~BinSearchTree() = default;
+    // Not needed if smart ptr is used
+    ~BinSearchTree() {
+        val = 0;
+        left = nullptr;
+        right = nullptr;
+    }
 
     /// @brief  Return the value of the node
     /// @param  node 
     /// @return Value of node
-    auto get_val(const BinSearchTree<T>* node) const -> int {
+    auto get_val(const BinSearchTree<T>* node) const -> T {
         return node->val;
     }
 
@@ -80,8 +86,8 @@ public:
     }
 
     auto print_postorder() const -> void {
-        if (left) left->print_inorder();
-        if (right) right->print_inorder();
+        if (left) left->print_postorder();
+        if (right) right->print_postorder();
         std::cout << get_val(this) << " ";
         if (duplicates.head) {
             duplicates.print_list();
@@ -102,10 +108,7 @@ auto main() -> int {
     root->insert(3);
     root->insert(9);
     root->insert(8);
-    //root->left = std::make_unique<BinSearchTree<int>>(++val);
-    //root->right = std::make_unique<BinSearchTree<int>>(++val);
-    //root->right->left = std::make_unique<BinSearchTree<int>>(++val);
-    //root->right->right = std::make_unique<BinSearchTree<int>>(BinSearchTree(++val));
+
     root->print_preorder();
     std::cout << std::endl;
     root->print_inorder();
@@ -114,7 +117,6 @@ auto main() -> int {
     std::cout << std::endl;
     return 0;
 }
-
 }
 
 int main() {
