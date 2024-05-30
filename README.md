@@ -1,7 +1,9 @@
 # Programmatic Playground
 This repository contains programming experiments and practice code. All programs are for exploring features of interest, and may not be optimized, generalized or robust.
 
-![playground for programming](programmatic_playground.webp "Programmatic Playground")
+<div align="center">
+    <img src="./programmatic_playground.webp" alt="Programmatic Playground" width="500px" position="center"/>
+</div>
 
 ### [C++](cpp/)
 The [C++](cpp/) directory contains code exploring modern C++ features such as templates, lambdas, static polymorphism and more.

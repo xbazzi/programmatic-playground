@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-namespace sorter {
+namespace sort {
 class Sorter {
     public:
 
@@ -14,21 +14,6 @@ class Sorter {
         std::cout << std::endl;
     }
 
-    /// @brief  Calculate the smallest element in the vector
-    /// @tparam T 
-    /// @param  it Starting position iterator
-    /// @param  end Final position iterator
-    /// @return Smallest element in the range between iterators
-    template<typename T>
-    static typename std::vector<T>::iterator smallest(typename std::vector<T>::iterator it, typename std::vector<T>::iterator end) {
-        typename std::vector<T>::iterator smallest_it = it;
-        for (; it != end; it++) {
-            if (*it < *smallest_it) {
-                smallest_it = it;
-            }
-        }
-        return smallest_it;
-    }
 
     /// @brief  Sort the vector using insertion sort.
     /// @tparam T 
@@ -57,7 +42,7 @@ class Sorter {
     template<typename T>
     static void selectionSort(std::vector<T> &vec) {
         for (auto currIt = vec.begin();currIt != vec.end(); currIt++) {
-            auto minIt = smallest<T>(currIt, vec.end());
+            auto minIt = _smallest<T>(currIt, vec.end());
             if (minIt != currIt) std::iter_swap(minIt, currIt);
         }
     }
@@ -90,8 +75,26 @@ class Sorter {
         return sortedVec;
     }
 
+private:
+
+    /// @brief  Calculate the smallest element in the vector
+    /// @tparam T 
+    /// @param  it Starting position iterator
+    /// @param  end Final position iterator
+    /// @return Smallest element in the range between iterators
+    template<typename T>
+    static typename std::vector<T>::iterator _smallest(typename std::vector<T>::iterator it, typename std::vector<T>::iterator end) {
+        typename std::vector<T>::iterator smallest_it = it;
+        for (; it != end; it++) {
+            if (*it < *smallest_it) {
+                smallest_it = it;
+            }
+        }
+        return smallest_it;
+    }
 
 };
+} // End of namespace sorter
 
 int main() {
     std::vector<int> test;
@@ -100,9 +103,8 @@ int main() {
     test.push_back(3);
     test.push_back(2);
     test.push_back(1);
-    Sorter::print(test);
+    sort::Sorter::print(test);
 
-    test = quickSort(test);
-    print(test);
+    test = sort::Sorter::quickSort(test);
+    sort::Sorter::print(test);
 }
-} // End of namespace sorter
