@@ -11,5 +11,6 @@ int main() {
     std::cout << max<long double>(4.56, 434.5) << std::endl;
     std::cout << max<char>('a', 'b') << std::endl;
     std::cout << max<bool>(true, false) << std::endl;
+    std::cout << max<uint>(1, 0) << std::endl;
     return 0;
 }
