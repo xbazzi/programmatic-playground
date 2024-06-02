@@ -11,34 +11,34 @@ public:
 
     // Default constructor
     BinSearchTree(T inVal)
-        : val{inVal}, left{nullptr}, right{nullptr}, duplicates{} {
-    }
+        : val{inVal}, left{nullptr}, right{nullptr}, duplicates{} 
+    {}
 
     // Move constructor
-    BinSearchTree(BinSearchTree &&other) noexcept
-        : val{std::move(other.val)}, left{std::move(other.left)}, right{std::move(other.right)}, duplicates{std::move(other.duplicates)} {
-        // Technically not needed if using unique_ptr
+    BinSearchTree(BinSearchTree &&other) noexcept 
+        : val{std::move(other.val)},
+          left{std::move(other.left)},
+          right{std::move(other.right)},
+          duplicates{std::move(other.duplicates)} 
+    {
         other.left = nullptr;
         other.right = nullptr;
     }
 
-    // Not needed if smart ptr is used
-    ~BinSearchTree() {
-        val = 0;
-        left = nullptr;
-        right = nullptr;
-    }
+    ~BinSearchTree() = default;
 
     /// @brief  Return the value of the node
     /// @param  node 
     /// @return Value of node
-    auto get_val(const BinSearchTree<T>* node) const -> T {
+    auto get_val(const BinSearchTree<T>* node) const -> int 
+    {
         return node->val;
     }
 
     /// @brief  Insert a new node into the tree with inorder traversal
     /// @param  newVal
-    auto insert(const T newVal) -> const void {
+    auto insert(const T newVal) -> const void 
+    {
         if (newVal < val) {
             if (this->left) {
                 this->left->insert(newVal);
@@ -56,7 +56,8 @@ public:
         }
     }
 
-    auto operator+(int inc) -> BinSearchTree<T> {
+    auto operator+(int inc) -> BinSearchTree<T> 
+    {
         BinSearchTree<T> curNode = this;
         while(curNode) {
             if(curNode->left) {
@@ -67,7 +68,8 @@ public:
         }
     }
 
-    auto print_preorder() const -> void {
+    auto print_preorder() const -> void 
+    {
         std::cout << get_val(this) << " ";
         if (duplicates.head) {
             duplicates.print_list();
@@ -76,7 +78,8 @@ public:
         if (right) right->print_preorder();
     }
 
-    auto print_inorder() const -> void {
+    auto print_inorder() const -> void 
+    {
         if (left) left->print_inorder();
         std::cout << get_val(this) << " ";
         if (duplicates.head) {
@@ -85,9 +88,10 @@ public:
         if (right) right->print_inorder();
     }
 
-    auto print_postorder() const -> void {
-        if (left) left->print_postorder();
-        if (right) right->print_postorder();
+    auto print_postorder() const -> void 
+    {
+        if (left) left->print_inorder();
+        if (right) right->print_inorder();
         std::cout << get_val(this) << " ";
         if (duplicates.head) {
             duplicates.print_list();
@@ -103,6 +107,7 @@ template<typename T>
 auto main() -> int {
     int val = 1;
     auto root = std::make_unique<BinSearchTree<int>>(val);
+
     root->insert(7);
     root->insert(7);
     root->insert(3);
@@ -111,12 +116,16 @@ auto main() -> int {
 
     root->print_preorder();
     std::cout << std::endl;
+
     root->print_inorder();
     std::cout << std::endl;
+
     root->print_postorder();
     std::cout << std::endl;
+
     return 0;
 }
+
 }
 
 int main() {
