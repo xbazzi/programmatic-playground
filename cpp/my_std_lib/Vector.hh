@@ -3,7 +3,9 @@
 
 template <typename T>
 class Vector {
-    public:
+
+using iterator = std::iterator;
+public:
 
     Vector();
     Vector(std::size_t new_size);
