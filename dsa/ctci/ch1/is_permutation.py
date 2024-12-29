@@ -27,6 +27,8 @@ def is_permutation_v2(s1: str, s2: str) -> bool:
         return False
     return True
 
+def is_permutation_v3()
+
 def main():
     s1 = "holaafasj"
     s2 = "hsfAajola"
