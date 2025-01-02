@@ -1,44 +1,54 @@
 #include <string>
 #include <iostream>
 #include <cstdint>
+#include <bitset>
 
 using namespace std;
 using namespace std::literals;
 
-const char* find(const string &s, const string &f) {
-    uint32_t match{static_cast<uint32_t>(f[0])}, hash{static_cast<uint32_t>(s[0])}, count{0};
+int find(const string &s, const string &f) {
+    uint32_t hpattern{static_cast<uint32_t>(0)}, htext{static_cast<uint32_t>(0)};
     uint32_t N = f.size();
+    uint32_t p = UINT32_MAX;
     
-
-    for (uint32_t i = 1; i < N; i++) {
-        match += f[i];
-        hash += s[i];
+    for (uint32_t i = 0; i < N; i++) {
+        cout << "the numbers mason: ";
+        cout << (1 << N - i - 1) << std::endl;
+        hpattern = (hpattern + f[i] * (1 << (N - i - 1))) % p;
+        htext = (htext + s[i] * (1 << (N - i - 1))) % p;
     }
 
-    for (uint32_t i = N; i < s.size(); i++) {
-        hash += s[i] - s[i - N];
-        if (match == hash) {
-            count = 0;
+    bool found = false;
+    for (uint32_t i = 0; i <= s.size() - N; i++) {
+        // check for match
+        cout << hpattern << ", " << htext << std::endl;
+        if (hpattern == htext) {
             //  Rule out collisions
             for (uint32_t j = 0; j < N; j++) {
-                if (f[j] == s[i + j + 1 - N]) {
-                    count++;
+                cout << j << ", " << s[i + j] << ", " << f[j] << std::endl;
+                if (s[i + j] != f[j]) {
+                    cout << "breaking" << std::endl;
+                    found = false;
+                    break;
                 }
+                found = true;
             }
-            if (count == N) return &(s[i - N + 1]);
         }
+        if (found) return i;
+        htext = (htext - s[i] * (1 << (N - 1))) * 2 + s[i + N];
     }
-    return nullptr;
+    return -1;
 }
 
 int main() {
-    string s = "hello world!";
-    const string &f = "world";
-    const char* p = find(s, f);
-    if (p) {
-        cout << "position: " << p - s.c_str();
+    string s = "hello world";
+    const string &f = "lo ";
+    const int p = find(s, f);
+    if (p < 0) {
+        cout << "not found :/" << std::endl;
         return 0;
     }
-    cout << "not found :(";
+    cout << "Found it at position " << p << ", which is " << s[p] << std::endl;
+
     return 0;
 }
