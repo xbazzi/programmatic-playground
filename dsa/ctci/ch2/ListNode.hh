@@ -1,21 +1,33 @@
-#include <memory>
+#include <type_traits>
+#include <sstream>
 
-class ListNode {
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+class Node {
 public:
-    ListNode() : value{0}, next{nullptr}
+    Node() : value{0}, next{nullptr}
     {}
 
-    ListNode(int val) : value{val}, next{nullptr}
+    Node(T val) : value{val}, next{nullptr}
     {}
 
-    int value;
-    std::unique_ptr<ListNode> next;
+    Node *next;
+    T value;
 
-    void print_list() const {
-        ListNode const *current = this;
-        while(current) {
-            std::cout << current->value << " ";
-            current = current->next.get();
-        } std::cout << std::endl;
+    void print_list() {
+        Node* current = this;
+        std::ostringstream ss;
+        ss << "List: ";
+        size_t count = 0, max_count = 50;
+        while (current) {
+            ss << current->value << " ";
+            current = current->next;
+            count++;
+            if (count > max_count) {
+                ss << std::endl << "Max size (50) exceeded or there is a loop.";
+                break;
+            }
+        } ss << std::endl;
+
+        std::cout << ss.str();
     }
 };
