@@ -45,5 +45,5 @@ func main() {
 	fmt.Println("error is ", err)
 	//y := uint16(30)
 	//logger.LogSumn()
-	fmt.Println(logger.LogSumn("we done goofed, sir!"))
+	fmt.Println(logger.LogSumn("another test, sir!"))
 }
