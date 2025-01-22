@@ -13,7 +13,7 @@ public:
 
     /// @brief Returns the data member
     /// @return data
-    auto get_val() -> int { 
+    auto get_val() -> int {
         return this->data;
     }
 
