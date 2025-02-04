@@ -18,4 +18,4 @@ The [Leetcode](leetcode/) folder is a collection of most of the Leetcode problem
 [Python](python/) holds some of the scripts or object-oriented programs I've written in Python, mostly as a practice exercise.
 
 ### [GoLang](go/)
-[Go](go/) Nice programming language, but I'd much rather code a compiler in x86 assembler
+Nice programming language, but I'd much rather mismanage memory myself, thanks.
