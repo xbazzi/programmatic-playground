@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+namespace llist {
 template <typename T>
 class Node {
 public:
@@ -87,3 +88,5 @@ class LinkedList
         }
     }
 };
+
+} // End of llist namespace
