@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python_std"
+version = "0.1.0"
+description = "My own implementation of a Python standard library"
+authors = [{ name = "xbazzi" }]
+dependencies = []
