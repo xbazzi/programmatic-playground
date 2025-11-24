@@ -1,35 +1,99 @@
-#include <iostream>
-#include <concepts>
-#include <memory>
+#include <algorithm>
+#include <cstdlib>
+#include <print>
+#include <source_location>
+#include <utility>
+#include <vector>
 
-namespace life {
-    class Lifetime {
-    public:
-        Lifetime()
-        {
-            std::printf("Default constructed.\n");
-        }
+void print(const std::source_location& loc = std::source_location::current())
+{
+    std::println("{}", loc.function_name());
+}
 
-        Lifetime(Lifetime& other_lifetime)
-        {
-            std::cout << "Copy constructed." << std::endl;
-        }
+template <class Type>
+void print(const Type& value, const std::source_location& loc = std::source_location::current())
+{
+    std::println("{}\t{}", value, loc.function_name());
+}
 
-        Lifetime(Lifetime&& other_lifetime)
-        {
-            std::cout << "Move constructed." << std::endl;
-        }
+template <class Type1, class Type2>
+void print(const Type1& value1, const Type2& value2, const std::source_location& loc = std::source_location::current())
+{
+    std::println("{}->{}\t{}", value1, value2, loc.function_name());
+}
 
-        ~Lifetime() noexcept
-        {
-            std::puts("Destroyed.");
+struct Lifetime {
+    static inline std::size_t m_global_id { 0 };
+    std::size_t m_id { ++m_global_id };
+
+    Lifetime()
+    {
+        ::print(m_id);
+    }
+
+    Lifetime(const Lifetime& other)
+    {
+        ::print(m_id, other.m_id);
+    }
+
+    Lifetime(Lifetime&& other) noexcept
+    {
+        ::print(m_id, other.m_id);
+        m_id = std::exchange(other.m_id, 1337);
+    }
+
+    Lifetime& operator=(Lifetime&& other) noexcept
+    {
+        if (this != &other) {
+            ::print(m_id, other.m_id);
+            m_id = other.m_id;
         }
-    };
-}; // end namespace life
+        return *this;
+    }
+
+    Lifetime& operator=(const Lifetime& other)
+    {
+        ::print(m_id, other.m_id);
+        return *this;
+    }
+
+    ~Lifetime()
+    {
+        ::print(m_id);
+    }
+};
+
+namespace std {
+template <>
+struct allocator<Lifetime> {
+    using value_type = Lifetime;
+
+    [[nodiscard]]
+    constexpr Lifetime* allocate(std::size_t n)
+    {
+        ::print(n * sizeof(Lifetime), "bytes allocated");
+        return static_cast<value_type*>(::operator new(sizeof(Lifetime) * n, align_val_t(alignof(Lifetime))));
+    }
+
+    constexpr void deallocate(value_type* l, std::size_t n)
+    {
+        ::print(n * sizeof(Lifetime), "bytes deleted");
+        ::operator delete(l, align_val_t(alignof(Lifetime)));
+    }
+};
+}
+
+static std::vector<Lifetime> get_lifetimes()
+{
+    return { {}, {}, {} };
+}
 
 int main()
 {
-    life::Lifetime a;
-    life::Lifetime b = std::move(a);
-    return 0;
+    for (const auto& _ : get_lifetimes()) {
+        std::println("blah");
+    }
+    std::ranges::for_each(get_lifetimes(), [](const auto& v) { std::println("hi"); });
+    std::println("sizeof(Lifetime): {}", sizeof(Lifetime));
+    return EXIT_SUCCESS;
 }
