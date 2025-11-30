@@ -1,26 +1,38 @@
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
-template<typename T>
+template <typename T>
 class Iterator {
 public:
-    Iterator() : _vec{0} {}
-    Iterator(std::vector<T> &vec) : _vec{vec} {}
-    Iterator(std::vector<T> &&vec) : _vec{std::move(vec)} {}
-        
-    T* begin() {
-         ptr = &_vec[0];
-         return ptr;
+    Iterator()
+        : _vec { 0 }
+    {
+    }
+    Iterator(std::vector<T>& vec)
+        : _vec { vec }
+    {
+    }
+    Iterator(std::vector<T>&& vec)
+        : _vec { std::move(vec) }
+    {
     }
 
-    T* end() {
-         ptr = &_vec[_vec.size() - 1];
-         return ptr;
+    T* begin()
+    {
+        ptr = &_vec[0];
+        return ptr;
     }
 
-    //void const print(const Iterator& start = _vec.Iterator::begin(), const Iterator& end = _vec.Iterator::end()) const 
-    static void const print(const T* start, const T* end) {
+    T* end()
+    {
+        ptr = &_vec[_vec.size() - 1];
+        return ptr;
+    }
+
+    // void const print(const Iterator& start = _vec.Iterator::begin(), const Iterator& end = _vec.Iterator::end()) const
+    static void const print(const T* start, const T* end)
+    {
         /// @todo Implement this properly, not with values; there could be duplicates.
         while (*start != *end) {
             std::cout << *++start << " ";
@@ -33,7 +45,8 @@ private:
     std::vector<T> _vec;
 };
 
-int main() {
+int main()
+{
     std::vector<int> test(2);
     test.push_back(1);
     test.push_back(5);
@@ -42,5 +55,4 @@ int main() {
     std::cout << *it->begin() << std::endl;
     std::cout << *it->end() << std::endl;
     Iterator<int>::print(it->begin(), it->end());
-
 }

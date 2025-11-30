@@ -9,7 +9,7 @@ public:
 
     virtual void method()
     {
-       std::cout << 1;
+        std::cout << 1;
     }
 };
 
@@ -21,15 +21,15 @@ public:
     }
 };
 
-int main ()
+int main()
 {
     B b;
-    A *a;
+    A* a;
     a = static_cast<A*>(&b);
-    std::cout << std::endl;
+    std::cout << '\n';
     a->method();
-    //void (A:: * pcat)();
-    //pcat = &A::method;
-    //(b.*pcat)();
+    void (A::*pcat)();
+    pcat = &A::method;
+    (b.*pcat)();
     return 0;
 }

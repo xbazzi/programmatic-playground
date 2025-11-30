@@ -4,6 +4,7 @@
 #include <print>
 #include <queue>
 #include <source_location>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -38,11 +39,11 @@ struct Lifetime {
         ::print(m_id, other.m_id);
     }
 
-    Lifetime(Lifetime&& other) noexcept
-    {
-        ::print(m_id, other.m_id);
-        m_id = std::exchange(other.m_id, 1337);
-    }
+    // Lifetime(Lifetime&& other) noexcept
+    // {
+    //     ::print(m_id, other.m_id);
+    //     m_id = std::exchange(other.m_id, m_id);
+    // }
 
     Lifetime& operator=(Lifetime&& other) noexcept
     {
@@ -87,14 +88,37 @@ struct allocator<Lifetime> {
 
 static std::vector<Lifetime> get_lifetimes()
 {
+    // return std::vector<Lifetime>{ Lifetime{}, Lifetime(), Lifetime()};
     return { {}, {}, {} };
+}
+
+#include <optional>
+std::optional<Lifetime> get_lifetime(std::uint64_t key)
+{
+    if (key < 42ULL) {
+        return std::nullopt;
+    }
+    return std::optional<Lifetime> { std::in_place };
+}
+
+void do_work(Lifetime lifetime)
+{
+    using namespace std::chrono_literals;
+    while (true) {
+        int x = x + 1;
+        std::print("{} ", lifetime.m_id);
+        std::this_thread::sleep_for(1s);
+    }
+    lifetime = Lifetime {};
 }
 
 int main()
 {
-    // for (const auto& _ : get_lifetimes()) {
-    //     std::println("blah");
-    // }
+    int x = 5;
+    const int & y = 5;
+    for (const auto& _ : get_lifetimes()) {
+        std::println("blah");
+    }
     // std::ranges::for_each(get_lifetimes(), [](const auto& v) { ; });
     // std::println("sizeof(Lifetime): {}", sizeof(Lifetime));
     // Lifetime a;
@@ -106,8 +130,16 @@ int main()
     // q.push_back(Lifetime {});
     // std::println("{} ", sizeof(q));
     // d = a;
+    // std::optional<Lifetime> a = get_lifetime(100ULL);
+    // if (a.has_value()) {
+    //     do_work(a.value());
+    // }
+    return 0;
+    // std::cout << a.has_value() << std::endl;
+    // if (a.has_value()) {
+    //     std::cout << "hi mom" << std::endl;
+    // }
 
-    Lifetime lifetime;
-    Lifetime arr[] { Lifetime {}, lifetime, {}, {} };
-    return EXIT_SUCCESS;
+    // return a.has_value();
+    return 1;
 }
