@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <cstdlib>
+#include <deque>
 #include <print>
+#include <queue>
 #include <source_location>
 #include <utility>
 #include <vector>
@@ -90,10 +92,22 @@ static std::vector<Lifetime> get_lifetimes()
 
 int main()
 {
-    for (const auto& _ : get_lifetimes()) {
-        std::println("blah");
-    }
-    std::ranges::for_each(get_lifetimes(), [](const auto& v) { std::println("hi"); });
-    std::println("sizeof(Lifetime): {}", sizeof(Lifetime));
+    // for (const auto& _ : get_lifetimes()) {
+    //     std::println("blah");
+    // }
+    // std::ranges::for_each(get_lifetimes(), [](const auto& v) { ; });
+    // std::println("sizeof(Lifetime): {}", sizeof(Lifetime));
+    // Lifetime a;
+    // Lifetime b;
+    // Lifetime c;
+    // c = b;
+    // Lifetime(d);
+    // std::vector<Lifetime> q;
+    // q.push_back(Lifetime {});
+    // std::println("{} ", sizeof(q));
+    // d = a;
+
+    Lifetime lifetime;
+    Lifetime arr[] { Lifetime {}, lifetime, {}, {} };
     return EXIT_SUCCESS;
 }

@@ -40,7 +40,7 @@ public:
         x ^= x >> 7;
         x ^= x << 5;
         m_state = x;
-        return static_cast<std::uint32_t>(x);
+        return static_cast<result_type>(x);
     }
 };
 

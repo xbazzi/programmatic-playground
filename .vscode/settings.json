@@ -88,7 +88,9 @@
         "print": "cpp",
         "stack": "cpp",
         "future": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "bitset": "cpp",
+        "list": "cpp"
     },
     "C_Cpp.default.compilerPath": "/nix/store/591apldfgm1gr238rbfc8ib0y1z8ng2y-gcc-wrapper-14-20241116/bin/g++"
 }
