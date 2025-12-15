@@ -17,76 +17,44 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        llvm = pkgs.llvmPackages_latest;
-        lib = nixpkgs.lib;
-        pythonPackages = pkgs.python313Packages;
-        pyPkgs = with pythonPackages; [
-          pandas
-          matplotlib
-          numpy
-          plotly
-          seaborn
-        ];
-
       in
       {
         # devShell = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } rec {
         devShell = pkgs.mkShell {
-          nativeBuildInputs =
-            pyPkgs
-            ++ (with pkgs; [
-              clang
-              bear
-              llvm.lldb
-              llvm.clang
-              gbenchmark
-              gcc
-              gtest
-              binutils
-              cmake
-              gdb
-              pkg-config
-              boost
-              toml11
-              openssl
-              valgrind
-              nlohmann_json
-              doxygen
-              graphviz
-              zsh
-              grpc
-              protobuf
-              llvmPackages_21.clang-tools
-            ]);
-
-          buildInputs = with pkgs; [
-            # pkgs.cassandra-cpp-driver
-            llvmPackages_21.clang-tools
-            nodejs_22
-            gcc
-            binutils
-            cmake
-            gdb
-            pkg-config
-            boost
-            toml11
-            openssl
-            valgrind
-            nlohmann_json
-            doxygen
-            graphviz
-            zsh
-            grpc
-            protobuf
-            # llvm.libcxx
-          ];
           shell = pkgs.zsh;
           shellHook = ''
-            echo "Welcome to the FastInAHurry flake dev shell" 
-            export CC=gcc
-            export CXX=g++
+            echo "Welcome to the Programmatic Playground flake dev shell" 
+
+            # SSH keys to add (customize this list as needed)
+            SSH_KEYS=(
+              "$HOME/.ssh/gh_id_ed25519"
+              "$HOME/.ssh/gt_id_ed"
+            )
+
+            # Start SSH agent if not already running
+            if [ -z "$SSH_AUTH_SOCK" ]; then
+              # Check if any keys exist before starting agent
+              key_exists=false
+              for key in "''${SSH_KEYS[@]}"; do
+                if [ -f "$key" ]; then
+                  key_exists=true
+                  break
+                fi
+              done
+
+              if [ "$key_exists" = true ]; then
+                eval $(ssh-agent -s) > /dev/null
+                # Add all existing keys
+                for key in "''${SSH_KEYS[@]}"; do
+                  if [ -f "$key" ]; then
+                    ssh-add "$key" 2>/dev/null && echo "Added SSH key: $(basename $key)"
+                  fi
+                done
+              fi
+            fi
           '';
 
+          # LLVM stuff
           # CPATH = builtins.concatStringsSep ":" [
           #   (lib.makeSearchPathOutput "dev" "include" [ llvm.libcxx ])
           #   (lib.makeSearchPath "resource-root/include" [ llvm.clang ])
