@@ -1,16 +1,22 @@
+#include <future>
 #include <iostream>
 #include <thread>
-#include <future>
 
-class ThreadSurfer {
-public:
-    ThreadSurfer() {}
-    ~ThreadSurfer() {}
+class ThreadSurfer
+{
+  public:
+    ThreadSurfer()
+    {
+    }
+    ~ThreadSurfer()
+    {
+    }
 
-    void readData() {
+    void readData()
+    {
         std::cout << std::fixed << _data << std::endl;
     }
 
-private:
+  private:
     int data = 0;
 };

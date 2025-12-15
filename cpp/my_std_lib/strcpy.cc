@@ -1,10 +1,10 @@
 #include <new>
 #include <print>
 
-char* my_strcpy(char* dst, const char* src)
+char *my_strcpy(char *dst, const char *src)
 {
 
-    char* result = dst;
+    char *result = dst;
     while (*dst++ = *src++)
         ;
     return result;
@@ -13,7 +13,7 @@ char* my_strcpy(char* dst, const char* src)
 int main()
 {
     const char arr[] = "12hi34";
-    char* p = new char[sizeof(arr)]();
+    char *p = new char[sizeof(arr)]();
 
     std::print("Before copy: p=\"{}\"\n", p);
     my_strcpy(p, arr);

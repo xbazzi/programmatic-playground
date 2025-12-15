@@ -1,74 +1,84 @@
 #include <concepts>
-#include <stdexcept>
+#include <cstdint>
 #include <iostream>
 #include <limits>
-#include <cstdint>
+#include <stdexcept>
 
+template <class T> class Stack
+{
+  private:
+    class StackNode
+    {
+        friend class Stack;
 
-template <class T>
-class Stack {
-private:
-    class StackNode {
-    friend class Stack;
-    private:
+      private:
         T _data;
-    protected:
+
+      protected:
         StackNode *next{nullptr};
-    public:
+
+      public:
         StackNode() : _data{0}, next{nullptr}
-        {}
+        {
+        }
 
-        StackNode(const T& data) : _data{data}, next{nullptr}
-        {}
+        StackNode(const T &data) : _data{data}, next{nullptr}
+        {
+        }
 
-        T data() {
+        T data()
+        {
             return _data;
         }
-        
-        
     };
 
-    T _last_min{std::numeric_limits<T>::max()};   
+    T _last_min{std::numeric_limits<T>::max()};
     uint32_t _size{0};
     StackNode *top_node{nullptr};
 
-public:
-
-    uint32_t size() {
+  public:
+    uint32_t size()
+    {
         return _size;
     }
 
-    bool hasNext() 
+    bool hasNext()
     {
         return this->top() && this->top()->next;
     }
 
-    void push(const T& data) {
+    void push(const T &data)
+    {
         _last_min = std::min(data, _last_min);
-        StackNode* new_node{new StackNode(data)};
-        StackNode* tmp = top_node;
+        StackNode *new_node{new StackNode(data)};
+        StackNode *tmp = top_node;
         top_node = new_node;
         new_node->next = tmp;
         _size++;
         return;
     }
 
-    StackNode* top() {
-        if (!top_node) return nullptr;
+    StackNode *top()
+    {
+        if (!top_node)
+            return nullptr;
         return top_node;
     }
 
-    T min() {
+    T min()
+    {
         return _last_min;
     }
 
-    T pop() {
-        if (!top_node) {
+    T pop()
+    {
+        if (!top_node)
+        {
             throw std::runtime_error("Stack is empty");
         }
         // return top node and remove it
         T data = top_node->data();
-        StackNode* tmp = top_node;
+        StackNode *tmp = top_node;
         top_node = top_node->next;
         delete tmp;
         _size--;
@@ -95,6 +105,6 @@ public:
 //     std::cout << stacky->pop() << " " << stacky->min() << std::endl;
 //     stacky->push(0);
 //     std::cout << stacky->pop() << " " << stacky->min() << std::endl;
-    
+
 //     return 0;
 // }

@@ -1,6 +1,6 @@
-#include <vector>
 #include <cstddef>
 #include <iostream>
+#include <vector>
 
 int main()
 {
@@ -9,4 +9,3 @@ int main()
     std::cout << std::scientific << max_size << std::endl;
     std::cout << alignof(char) << std::endl;
 }
-

@@ -1,11 +1,12 @@
 #include <iostream>
 
-template<typename T>
-const T& max(const T& a, const T& b) {
+template <typename T> const T &max(const T &a, const T &b)
+{
     return a > b ? a : b;
 }
 
-int main() {
+int main()
+{
     const int a = 0, b = 2;
     std::cout << max<int>(a, b) << std::endl;
     std::cout << max<long double>(4.56, 434.5) << std::endl;

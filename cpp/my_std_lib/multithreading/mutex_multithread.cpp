@@ -1,35 +1,31 @@
-#include <iostream>
-#include <memory>
-#include <thread>
-#include <mutex>
 #include <chrono>
 #include <future>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <thread>
 
 std::mutex cout_mutex; // Global mutex for std::cout syncing
 
-template <typename VINType>
-class Vehicle
+template <typename VINType> class Vehicle
 {
     /*
-    * Public member methods
-    */
-    public:
-
+     * Public member methods
+     */
+  public:
     /*
-    * Constructor
-    */
-    Vehicle(VINType& vin, int miles) 
-        : _vin{ vin },
-          _odometer { miles }
-    {}
+     * Constructor
+     */
+    Vehicle(VINType &vin, int miles) : _vin{vin}, _odometer{miles}
+    {
+    }
 
     void displayOdometer()
     {
         std::lock_guard<std::mutex> locked(odometer_mutex);
         {
             std::lock_guard<std::mutex> cout_locked(cout_mutex);
-            std::cout << "This vehicle has " << _odometer 
-                    << " miles." << std::endl;
+            std::cout << "This vehicle has " << _odometer << " miles." << std::endl;
         }
     }
 
@@ -51,8 +47,7 @@ class Vehicle
         {
             std::lock_guard<std::mutex> cout_locked(cout_mutex);
             std::cout << "Updating odometer for " << seconds << " seconds"
-                    << " at " << milesPerSecond << " miles/second."
-                    << std::endl;
+                      << " at " << milesPerSecond << " miles/second." << std::endl;
         }
 
         for (int i = 0; i < seconds; i++)
@@ -67,10 +62,9 @@ class Vehicle
     }
 
     /*
-    * Private member variables
-    */
-    private:
-
+     * Private member variables
+     */
+  private:
     int _odometer;
     VINType _vin;
 
@@ -78,8 +72,7 @@ class Vehicle
 };
 
 // Global variables
-template <typename VINType>
-std::mutex Vehicle<VINType>::odometer_mutex; // Static member variable definition
+template <typename VINType> std::mutex Vehicle<VINType>::odometer_mutex; // Static member variable definition
 
 int main()
 {
@@ -95,9 +88,8 @@ int main()
 
     int milesPerSecond = 11;
     int totalMiles = 5;
-    std::thread updateThread([&]() 
-    { 
-        vehicle->updateOdometer(milesPerSecond, totalMiles); 
+    std::thread updateThread([&]() {
+        vehicle->updateOdometer(milesPerSecond, totalMiles);
         odometerUpdateDone.set_value();
     });
 

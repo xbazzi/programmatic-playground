@@ -2,10 +2,10 @@
 #include <iterator>
 #include <memory>
 
-template <typename T>
-class Vector {
+template <typename T> class Vector
+{
 
-public:
+  public:
     class Iterator;
     using iterator = Iterator;
 
@@ -15,41 +15,53 @@ public:
     Vector(std::size_t newm_size, T data, std::size_t cap);
     ~Vector();
 
-    T& operator[](std::size_t index);
+    T &operator[](std::size_t index);
 
     void insert(T val);
     void remove();
     void double_capacity();
-    size_t size() { return m_size; }
-    size_t capacity() { return m_capacity; }
+    size_t size()
+    {
+        return m_size;
+    }
+    size_t capacity()
+    {
+        return m_capacity;
+    }
     iterator begin();
     iterator end();
 
-private:
-    T* m_data;
-    T* p_last_el;
+  private:
+    T *m_data;
+    T *p_last_el;
     size_t m_size;
     size_t m_capacity;
     std::unique_ptr<T[]> m_container;
 
-public:
-    class Iterator {
-    public:
+  public:
+    class Iterator
+    {
+      public:
         using iterator_category = std::random_access_iterator_tag;
         using value_type = T;
         using difference_type = std::ptrdiff_t;
-        using pointer = T*;
-        using reference = T&;
+        using pointer = T *;
+        using reference = T &;
 
-        Iterator(pointer ptr)
-            : _ptr(ptr)
+        Iterator(pointer ptr) : _ptr(ptr)
         {
         }
 
-        reference operator*() const { return *_ptr; }
-        pointer operator->() const { return _ptr; }
+        reference operator*() const
+        {
+            return *_ptr;
+        }
+        pointer operator->() const
+        {
+            return _ptr;
+        }
 
-        iterator& operator++()
+        iterator &operator++()
         {
             ++_ptr;
             return *this;
@@ -77,14 +89,14 @@ public:
             return this->_ptr + operand;
         }
 
-        auto operator<=>(const Iterator& other) const = default;
+        auto operator<=>(const Iterator &other) const = default;
 
         pointer get_ptr()
         {
             return _ptr;
         }
 
-    private:
+      private:
         pointer _ptr;
     };
 };

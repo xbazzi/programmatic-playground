@@ -2,46 +2,45 @@
 #include <memory>
 #include <vector>
 
-template <typename T>
-class Iterator {
-public:
-    Iterator()
-        : _vec { 0 }
+template <typename T> class Iterator
+{
+  public:
+    Iterator() : _vec{0}
     {
     }
-    Iterator(std::vector<T>& vec)
-        : _vec { vec }
+    Iterator(std::vector<T> &vec) : _vec{vec}
     {
     }
-    Iterator(std::vector<T>&& vec)
-        : _vec { std::move(vec) }
+    Iterator(std::vector<T> &&vec) : _vec{std::move(vec)}
     {
     }
 
-    T* begin()
+    T *begin()
     {
         ptr = &_vec[0];
         return ptr;
     }
 
-    T* end()
+    T *end()
     {
         ptr = &_vec[_vec.size() - 1];
         return ptr;
     }
 
-    // void const print(const Iterator& start = _vec.Iterator::begin(), const Iterator& end = _vec.Iterator::end()) const
-    static void const print(const T* start, const T* end)
+    // void const print(const Iterator& start = _vec.Iterator::begin(), const Iterator& end = _vec.Iterator::end())
+    // const
+    static void const print(const T *start, const T *end)
     {
         /// @todo Implement this properly, not with values; there could be duplicates.
-        while (*start != *end) {
+        while (*start != *end)
+        {
             std::cout << *++start << " ";
         }
         std::cout << std::endl;
     }
 
-private:
-    T* ptr;
+  private:
+    T *ptr;
     std::vector<T> _vec;
 };
 

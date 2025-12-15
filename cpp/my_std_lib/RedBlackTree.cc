@@ -1,25 +1,26 @@
-#include <memory>
 #include <iostream>
-//#include <type_traits> //C++17
+#include <memory>
+// #include <type_traits> //C++17
 
 // C++20 headers
-#include <concepts>
 #include <bitset>
+#include <concepts>
 
 // 1. The root is BLACK.
 // 2. Every leaf is BLACK.
 // 3. Both children of a red node are BLACK.
 // 4. Every leaf (BLACK) is null.
 // 5. Every leaf (BLACK) is at the same level.
-// 6. Every simple path from a node to a descendant leaf 
+// 6. Every simple path from a node to a descendant leaf
 //     contains the same number of black nodes.
 
-namespace rbtree {
+namespace rbtree
+{
 
-enum Color : uint8_t 
-{ 
+enum Color : uint8_t
+{
     RED,
-    BLACK 
+    BLACK
 };
 
 // C++17
@@ -27,28 +28,29 @@ enum Color : uint8_t
 template <std::integral T> // C++20
 class Node
 {
-public:
-    Node(T new_data): data{new_data}, right{nullptr}, left{nullptr}, 
-                      parent{nullptr}, color{RED}
-    {}
+  public:
+    Node(T new_data) : data{new_data}, right{nullptr}, left{nullptr}, parent{nullptr}, color{RED}
+    {
+    }
 
     T data{};
     Color color;
-    Node<T>* left{nullptr};
-    Node<T>* right{nullptr};
-    Node<T>* parent{nullptr};
+    Node<T> *left{nullptr};
+    Node<T> *right{nullptr};
+    Node<T> *parent{nullptr};
 };
 
 template <std::integral T> // C++20
 class RedBlackTree
 {
-private:
-    Node<T>* root;
+  private:
+    Node<T> *root;
 
     // TODO
-    void destroy_tree(Node<T>* node)
+    void destroy_tree(Node<T> *node)
     {
-        if (!node) return; 
+        if (!node)
+            return;
 
         destroy_tree(node->left);
         destroy_tree(node->right);
@@ -56,11 +58,12 @@ private:
     }
 
     [[nodiscard]]
-    Node<T>* clone_tree(RedBlackTree<T>& other)
+    Node<T> *clone_tree(RedBlackTree<T> &other)
     {
-        if (!other) return nullptr;
+        if (!other)
+            return nullptr;
 
-        Node<T>* new_node = new Node(other->data);
+        Node<T> *new_node = new Node(other->data);
         new_node->color = other->color;
         new_node->parent = other->parent;
         new_node->left = clone_tree(other->left, new_node);
@@ -69,10 +72,10 @@ private:
         return new_node;
     }
 
-    void rotate_left(Node<T>* node) 
+    void rotate_left(Node<T> *node)
     {
         std::cout << "rotating left" << std::endl;
-        Node<T>* right_child = node->right;
+        Node<T> *right_child = node->right;
         node->right = right_child->left;
 
         if (right_child->left)
@@ -96,10 +99,10 @@ private:
         }
     }
 
-    void rotate_right(Node<T>* node)
+    void rotate_right(Node<T> *node)
     {
         std::cout << "rotating right" << std::endl;
-        Node<T>* left_child = node->left;
+        Node<T> *left_child = node->left;
         node->left = left_child->right;
 
         if (left_child->right)
@@ -126,10 +129,10 @@ private:
         node->parent = left_child;
     }
 
-    void fix_insert(Node<T>* node)
+    void fix_insert(Node<T> *node)
     {
-        Node<T>* parent = nullptr;
-        Node<T>* grandparent = nullptr;
+        Node<T> *parent = nullptr;
+        Node<T> *grandparent = nullptr;
 
         while (node != root && node->color == RED && node->parent->color == RED)
         {
@@ -138,7 +141,7 @@ private:
 
             if (parent == grandparent->left)
             {
-                Node<T>* uncle = grandparent->right;
+                Node<T> *uncle = grandparent->right;
 
                 if (uncle && uncle->color == RED)
                 {
@@ -164,7 +167,7 @@ private:
             }
             else
             {
-                Node<T>* uncle = grandparent->left;
+                Node<T> *uncle = grandparent->left;
 
                 if (uncle && uncle->color == RED)
                 {
@@ -192,10 +195,10 @@ private:
         root->color = BLACK;
     }
 
-    void insert_node(Node<T>* node)
+    void insert_node(Node<T> *node)
     {
-        Node<T>* parent = nullptr;
-        Node<T>* current = root;
+        Node<T> *parent = nullptr;
+        Node<T> *current = root;
 
         while (current)
         {
@@ -228,18 +231,19 @@ private:
         fix_insert(node);
     }
 
-public:
-    RedBlackTree() : root{nullptr} 
-    {}
+  public:
+    RedBlackTree() : root{nullptr}
+    {
+    }
 
     // Copy ctor
-    RedBlackTree(const RedBlackTree& other) : root{nullptr}
+    RedBlackTree(const RedBlackTree &other) : root{nullptr}
     {
         root = clone_tree(other);
     }
 
     // Copy assignment
-    RedBlackTree& operator=(const RedBlackTree& other)
+    RedBlackTree &operator=(const RedBlackTree &other)
     {
         if (this != &other)
         {
@@ -250,13 +254,13 @@ public:
     }
 
     // Move ctor
-    RedBlackTree(RedBlackTree&& other) noexcept : root{other.root}
+    RedBlackTree(RedBlackTree &&other) noexcept : root{other.root}
     {
         delete other.root;
     }
 
     // Move assignment
-    RedBlackTree& operator=(RedBlackTree&& other) noexcept 
+    RedBlackTree &operator=(RedBlackTree &&other) noexcept
     {
         if (this != &other)
         {
@@ -274,13 +278,14 @@ public:
 
     void insert(T data)
     {
-        Node<T>* new_node = new Node(data);
+        Node<T> *new_node = new Node(data);
         insert_node(new_node);
     }
 
-    void traverse_in_order(Node<T>* node)
+    void traverse_in_order(Node<T> *node)
     {
-        if (!node) return;
+        if (!node)
+            return;
         traverse_in_order(node->left);
         std::cout << +node->data << " ";
         traverse_in_order(node->right);
@@ -291,7 +296,6 @@ public:
         traverse_in_order(root);
         std::cout << std::endl;
     }
-
 };
 
-} // End of rbtree namespace
+} // namespace rbtree

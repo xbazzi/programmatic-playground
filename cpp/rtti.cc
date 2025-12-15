@@ -11,17 +11,16 @@ struct S
 };
 
 static uint64_t bar;
-static constexpr uint64_t foo	= 5;
+static constexpr uint64_t foo = 5;
 
-		      
 // const int& f(const int& r);
 // bool b = false;
 // int n = b ? (1, S::x) // S::x is not odr-used here
 //           : f(S::x);  // S::x is odr-used here: a definition is required
-		     
-int main() 
+
+int main()
 {
-	std::cout << typeid(x).name() << ", size(long long): " << sizeof(long long) << std::endl;
-	(void)printf("Hello"), 5; // okay
-	return 0;
+    std::cout << typeid(x).name() << ", size(long long): " << sizeof(long long) << std::endl;
+    (void)printf("Hello"), 5; // okay
+    return 0;
 }

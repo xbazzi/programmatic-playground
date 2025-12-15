@@ -1,25 +1,24 @@
+#include "LinkedList.cpp"
 #include <iostream>
 #include <memory>
-#include "LinkedList.cpp"
 
-namespace tree {
-template<typename T>
-class BinSearchTree {
-public:
+namespace tree
+{
+template <typename T> class BinSearchTree
+{
+  public:
     std::unique_ptr<BinSearchTree> left;
     std::unique_ptr<BinSearchTree> right;
 
     // Default constructor
-    BinSearchTree(T inVal)
-        : val{inVal}, left{nullptr}, right{nullptr}, duplicates{} 
-    {}
+    BinSearchTree(T inVal) : val{inVal}, left{nullptr}, right{nullptr}, duplicates{}
+    {
+    }
 
     // Move constructor
-    BinSearchTree(BinSearchTree &&other) noexcept 
-        : val{std::move(other.val)},
-          left{std::move(other.left)},
-          right{std::move(other.right)},
-          duplicates{std::move(other.duplicates)} 
+    BinSearchTree(BinSearchTree &&other) noexcept
+        : val{std::move(other.val)}, left{std::move(other.left)}, right{std::move(other.right)},
+          duplicates{std::move(other.duplicates)}
     {
         other.left = nullptr;
         other.right = nullptr;
@@ -28,83 +27,107 @@ public:
     ~BinSearchTree() = default;
 
     /// @brief  Return the value of the node
-    /// @param  node 
+    /// @param  node
     /// @return Value of node
-    auto get_val(const BinSearchTree<T>* node) const -> int 
+    auto get_val(const BinSearchTree<T> *node) const -> int
     {
         return node->val;
     }
 
     /// @brief  Insert a new node into the tree with inorder traversal
     /// @param  newVal
-    auto insert(const T newVal) -> const void 
+    auto insert(const T newVal) -> const void
     {
-        if (newVal < val) {
-            if (this->left) {
+        if (newVal < val)
+        {
+            if (this->left)
+            {
                 this->left->insert(newVal);
-            } else {
+            }
+            else
+            {
                 this->left = std::make_unique<BinSearchTree>(newVal);
             }
-        } else if (newVal > val) {
-            if (this->right) {
+        }
+        else if (newVal > val)
+        {
+            if (this->right)
+            {
                 this->right->insert(newVal);
-            } else {
+            }
+            else
+            {
                 this->right = std::make_unique<BinSearchTree>(newVal);
             }
-        } else { // newVal == val
+        }
+        else
+        { // newVal == val
             duplicates.insert_end(val);
         }
     }
 
-    auto operator+(int inc) -> BinSearchTree<T> 
+    auto operator+(int inc) -> BinSearchTree<T>
     {
         BinSearchTree<T> curNode = this;
-        while(curNode) {
-            if(curNode->left) {
+        while (curNode)
+        {
+            if (curNode->left)
+            {
                 curNode->left;
-            } else if (curNode->right) {
+            }
+            else if (curNode->right)
+            {
                 curNode->right;
             }
         }
     }
 
-    auto print_preorder() const -> void 
+    auto print_preorder() const -> void
     {
         std::cout << get_val(this) << " ";
-        if (duplicates.head) {
+        if (duplicates.head)
+        {
             duplicates.print_list();
         }
-        if (left) left->print_preorder();
-        if (right) right->print_preorder();
+        if (left)
+            left->print_preorder();
+        if (right)
+            right->print_preorder();
     }
 
-    auto print_inorder() const -> void 
+    auto print_inorder() const -> void
     {
-        if (left) left->print_inorder();
+        if (left)
+            left->print_inorder();
         std::cout << get_val(this) << " ";
-        if (duplicates.head) {
+        if (duplicates.head)
+        {
             duplicates.print_list();
         }
-        if (right) right->print_inorder();
+        if (right)
+            right->print_inorder();
     }
 
-    auto print_postorder() const -> void 
+    auto print_postorder() const -> void
     {
-        if (left) left->print_inorder();
-        if (right) right->print_inorder();
+        if (left)
+            left->print_inorder();
+        if (right)
+            right->print_inorder();
         std::cout << get_val(this) << " ";
-        if (duplicates.head) {
+        if (duplicates.head)
+        {
             duplicates.print_list();
         }
     }
 
-private:
+  private:
     LinkedList<T> duplicates;
     T val;
 };
 
-template<typename T>
-auto main() -> int {
+template <typename T> auto main() -> int
+{
     int val = 1;
     auto root = std::make_unique<BinSearchTree<int>>(val);
 
@@ -126,8 +149,9 @@ auto main() -> int {
     return 0;
 }
 
-}
+} // namespace tree
 
-int main() {
+int main()
+{
     return tree::main<int>();
 }

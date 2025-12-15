@@ -1,7 +1,8 @@
 #include <iostream>
 
-class A {
-public:
+class A
+{
+  public:
     A()
     {
         method();
@@ -13,8 +14,9 @@ public:
     }
 };
 
-class B : public A {
-public:
+class B : public A
+{
+  public:
     virtual void method()
     {
         std::cout << "2";
@@ -24,8 +26,8 @@ public:
 int main()
 {
     B b;
-    A* a;
-    a = static_cast<A*>(&b);
+    A *a;
+    a = static_cast<A *>(&b);
     std::cout << '\n';
     a->method();
     void (A::*pcat)();

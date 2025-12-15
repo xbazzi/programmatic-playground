@@ -6,7 +6,7 @@
 int main()
 {
     std::unordered_map<std::string, std::vector<std::string>> map;
-    map.insert({ "A", { "B", "C", "D" } });
+    map.insert({"A", {"B", "C", "D"}});
 
     return EXIT_SUCCESS;
 }

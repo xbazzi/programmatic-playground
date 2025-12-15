@@ -1,14 +1,16 @@
 #include <cstdlib>
 #include <print>
 
-struct SomeClass {
+struct SomeClass
+{
     virtual void foo()
     {
         std::print("SomeClass::foo");
     }
 };
 
-struct AnotherClass : public SomeClass {
+struct AnotherClass : public SomeClass
+{
     inline void foo() override
     {
         std::print("AnotherClass::foo");
@@ -17,7 +19,7 @@ struct AnotherClass : public SomeClass {
 
 int main()
 <%
-    AnotherClass {}.foo();
+    AnotherClass{}.foo();
     // ac.foo();
 
     return EXIT_SUCCESS;

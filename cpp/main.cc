@@ -1,6 +1,6 @@
-#include <iostream>
-#include <cstdint>
 #include "RedBlackTree.cc"
+#include <cstdint>
+#include <iostream>
 
 using namespace rbtree;
 
