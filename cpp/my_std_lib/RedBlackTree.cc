@@ -23,8 +23,6 @@ enum Color : uint8_t
     BLACK
 };
 
-// C++17
-// template <typename T, typename = std::enable_if<std::is_integral_v<T>>>
 template <std::integral T> // C++20
 class Node
 {
