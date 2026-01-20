@@ -14,12 +14,16 @@ int binary_search(const std::vector<int> &v, int target)
         else
             right = mid;
     }
+    return -1;
 }
 
+
 #include <print>
+#include <thread>
 int main()
 {
     std::vector<int> v{1, 2, 3};
-    std::print("{}", binary_search(v, 2));
+    // std::print("{}", binary_search(v, 2));
+    std::jthread j{binary_search, std::cref(v), 2};
     return 0;
 }

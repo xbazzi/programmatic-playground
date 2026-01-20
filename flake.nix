@@ -19,7 +19,6 @@
         pkgs = import nixpkgs { inherit system; };
       in
       {
-        # devShell = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } rec {
         devShell = pkgs.mkShell {
           shell = pkgs.zsh;
           shellHook = ''
