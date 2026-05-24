@@ -4,5 +4,15 @@
         "*.sml": "sml",
         "*.cs": "sml"
     },
-    "C_Cpp.default.compilerPath": "/nix/store/591apldfgm1gr238rbfc8ib0y1z8ng2y-gcc-wrapper-14-20241116/bin/g++"
+    "C_Cpp.default.compilerPath": "/nix/store/591apldfgm1gr238rbfc8ib0y1z8ng2y-gcc-wrapper-14-20241116/bin/g++",
+    "search.exclude": {
+        "**/.direnv": true,
+        "**/__pycache__": true,
+        "**/build": true
+    },
+    "files.watcherExclude": {
+        "**/.direnv/**": true,
+        "**/__pycache__/**": true,
+        "**/build/**": true
+    }
 }
